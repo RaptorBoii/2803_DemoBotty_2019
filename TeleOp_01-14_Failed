@@ -1,0 +1,114 @@
+package org.firstinspires.ftc.teamcode;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+
+
+
+ /*Created by student on 8/27/18
+ */
+ // Note, Brendan Wu is an eccentric person and don't question his variables!!!
+ @TeleOp (name = "ROP", group = "RaptorTele")
+ public class Demo_Botty extends LinearOpMode {
+ 
+  public ElapsedTime runtime = new ElapsedTime();
+
+  public static DcMotor FLDrive = null;
+  public static DcMotor FRDrive = null;
+  public static DcMotor BLDrive = null;
+  public static DcMotor BRDrive = null;
+  public static DcMotor Lift = null;
+  public static DcMotor Extender = null;
+    // LIM = Linear Ingestion Module
+    public static DcMotor LIM = null;
+    
+    // //Servo Members
+    public static Servo Hook = null;
+    public static Servo Marker = null;
+    @Override
+        public void runOpMode() {
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+
+            FLDrive = HardwareMap.get(DcMotor.class, "FL");
+            FRDrive = HardwareMap.get(DcMotor.class, "FR");
+            BLDrive = HardwareMap.get(DcMotor.class, "BL");
+            BRDrive = HardwareMap.get(DcMotor.class, "BR");
+            Lift = HardwareMap.get(DcMotor.class, "Lift");
+            Extender = HardwareMap.get(DcMotor.class, "Ext");
+            LIM = HardwareMap.get(DcMotor.class, "LIM");
+            // //Servo Hardware
+            Hook = HardwareMap.get(Servo.class, "Hook");
+            Marker = HardwareMap.get(Servo.class, "Marker");
+    
+            // Wait for the game to start (driver presses PLAY)
+            waitForStart();
+            runtime.reset();
+    
+            // run until the end of the match (driver presses STOP)
+            while (opModeIsActive()) {
+                
+                // Setup a variable for each drive wheel to save power level for telemetry
+                double leftPower;
+                double rightPower;
+    
+                // Choose to drive using either Tank Mode, or POV Mode
+                // Comment out the method that's not used.  The default below is POV.
+    
+                // POV Mode uses left stick to go forward, and right stick to turn.
+                // This uses basic math to combine motions and is easier to drive straight.
+                double drive = gamepad1.left_stick_y;
+                double turn  = gamepad1.right_stick_x;
+                // double drive = -gamepad1.left_stick_y * 0.8;
+                // double turn  = gamepad1.left_stick_x * 0.4;
+               
+                leftPower   = Range.clip(drive - turn, -1.00, 1.00);
+                rightPower  = Range.clip(drive + turn, -1.00, 1.00);
+              
+                // Tank Mode uses one stick to control each wheel.
+                //- This requires no math, but it is hard to drive forward slowly and keep straight.
+                // leftPower  = gamepad1.left_stick_y;
+                // rightPower = gamepad1.right_stick_y;
+                // Intake = gamepad2.right_stick_y;
+                
+                // Send calculated power to wheels
+                
+                FLDrive.setPower(leftPower);
+                BLDrive.setPower(leftPower);
+                FRDrive.setPower(rightPower);
+                BRDrive.setPower(rightPower);
+                
+                LIM.setPower(gamepad2.left_stick_y);
+                
+                Lift.setPower(gamepad2.right_stick_y);
+                
+                Extender.setPower(gamepad2.right_trigger);
+                // Servo
+                if(gamepad1.y) {
+                // move to 0 degrees.
+                Hook.setPosition(0);
+                } else if (gamepad1.x || gamepad1.b) {
+                // move to 90 degrees.
+                Hook.setPosition(0.75);
+                
+    
+ 
+             
+                
+}
+            // Show the elapsed game time and wheel power.
+                    telemetry.addData("Status", "Run Time: " + runtime.toString());
+                    telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+                    telemetry.addData("Servo Position", Hook.getPosition());
+                    telemetry.addData("Status", "Running");
+                    telemetry.update();
+                }
+    }
+}
