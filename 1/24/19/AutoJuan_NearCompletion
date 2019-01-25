@@ -1,0 +1,112 @@
+/*
+Copyright 2018 FIRST Tech Challenge Team 2803
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+package org.firstinspires.ftc.teamcode;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import java.lang.annotation.Target;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.AnalogInput; 
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+@Autonomous (name = "RAWR", group = "RaptorAuto")
+public class Autojuan extends LinearOpMode {
+    public ElapsedTime runtime = new ElapsedTime();
+    private DcMotor FLDrive = null;
+    private DcMotor FRDrive = null;
+    private DcMotor BLDrive = null;
+    private DcMotor BRDrive = null;
+    private DcMotor Lift = null;
+    private DcMotor IntakeLeft = null; 
+    private DcMotor IntakeRight = null;
+    // LIM = Linear Ingestion Module
+    private DcMotor LIM = null;
+   
+     @Override
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+            FLDrive = hardwareMap.get(DcMotor.class, "FL");
+            FRDrive = hardwareMap.get(DcMotor.class, "FR");
+            BLDrive = hardwareMap.get(DcMotor.class, "BL");
+            BRDrive = hardwareMap.get(DcMotor.class, "BR");
+            Lift = hardwareMap.get(DcMotor.class, "Lift");
+            IntakeLeft = hardwareMap.get(DcMotor.class, "InLeft");
+            IntakeRight = hardwareMap.get(DcMotor.class, "InRight");
+            LIM = hardwareMap.get(DcMotor.class, "LIM");
+            
+        FLDrive.setDirection(DcMotor.Direction.FORWARD);
+        FRDrive.setDirection(DcMotor.Direction.REVERSE);
+        BLDrive.setDirection(DcMotor.Direction.FORWARD);
+        BRDrive.setDirection(DcMotor.Direction.REVERSE);
+        Lift.setDirection(DcMotor.Direction.REVERSE);
+        
+        FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        
+        //////////////////////////////////////////////////////////////////////
+        // The robot isn't reading the Encoder value set!!!
+        // FIND THE CODE THAT ALLOWS THE ROBOT TO READ IT
+        FLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        
+        FLDrive.setTargetPosition(1120);
+        FRDrive.setTargetPosition(1120);
+        BLDrive.setTargetPosition(1120);
+        BRDrive.setTargetPosition(1120);
+        FLDrive.setPower(1);
+        FRDrive.setPower(1);
+        BLDrive.setPower(1);
+        BRDrive.setPower(1);
+        
+        while(FLDrive.isBusy() && FRDrive.isBusy() && BLDrive.isBusy() && BRDrive.isBusy() && opModeIsActive()){
+        
+        }
+        
+        //sleep(500);
+
+             
+                
+                
+                
+        
+        while (opModeIsActive()) {
+            telemetry.addData("Status", "Run Time: " + HMP.runtime.toString());
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", HMP.FLDrive, HMP.FRDrive, HMP.BLDrive, HMP.BRDrive);
+            
+            telemetry.update();
+        }
+    }
+}
