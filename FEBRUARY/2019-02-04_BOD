@@ -1,0 +1,42 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import java.lang.annotation.Target;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.AnalogInput; 
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+//////////////////////////////////////////////////////////////////////////
+@Autonomous (name = "Fresh Auto", group = "Yes")
+public class Fresh_Auto extends LinearOpMode{
+
+    public DcMotor FLDrive;
+    public DcMotor FRDrive;
+    public DcMotor BLDrive;
+    public DcMotor BRDrive;
+    
+       @Override
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+        FLDrive = hardwareMap.get(DcMotor.class, "FL");
+        FRDrive = hardwareMap.get(DcMotor.class, "FR");
+        BLDrive = hardwareMap.get(DcMotor.class, "BL");
+        BRDrive = hardwareMap.get(DcMotor.class, "BR");
+        
+        
+}
+    
+}
