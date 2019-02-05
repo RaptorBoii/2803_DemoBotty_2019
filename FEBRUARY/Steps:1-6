@@ -1,0 +1,259 @@
+/*
+Copyright 2018 FIRST Tech Challenge Team 2803
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+package org.firstinspires.ftc.teamcode;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import java.lang.annotation.Target;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.AnalogInput; 
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Completed test 1/26/19
+@Autonomous (name = "Checkmate", group = "RAuto")
+public class Actual_Auto extends LinearOpMode {
+    public ElapsedTime runtime = new ElapsedTime();
+    private DcMotor FLDrive;
+    private DcMotor FRDrive;
+    private DcMotor BLDrive;
+    private DcMotor BRDrive;
+    private DcMotor Lift;
+    // LIM = Linear Ingestion Module
+    private DcMotor LIM;
+    private DcMotor MarkerArm;
+   
+  public int M = 1000;
+  public int D = 500;
+  public int FullRev = 1120;
+     @Override
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+            FLDrive = hardwareMap.get(DcMotor.class, "FL");
+            FRDrive = hardwareMap.get(DcMotor.class, "FR");
+            BLDrive = hardwareMap.get(DcMotor.class, "BL");
+            BRDrive = hardwareMap.get(DcMotor.class, "BR");
+            Lift = hardwareMap.get(DcMotor.class, "Lift");
+            LIM = hardwareMap.get(DcMotor.class, "LIM");
+            MarkerArm = hardwareMap.get(DcMotor.class, "MA");
+            
+        FLDrive.setDirection(DcMotor.Direction.REVERSE);
+        FRDrive.setDirection(DcMotor.Direction.FORWARD);
+        BLDrive.setDirection(DcMotor.Direction.REVERSE);
+        BRDrive.setDirection(DcMotor.Direction.FORWARD);
+        
+        
+        
+        FLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BLDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BRDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        
+        
+        
+        // FLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // FRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // BLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // BRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        
+        FLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+        telemetry.addData("Mode", "waiting");
+        telemetry.update();
+        
+        waitForStart();
+        
+        telemetry.addData("Mode", "running");
+        telemetry.update();
+        //Step 1: Drive out of the Lander & fwd 13 IN
+        telemetry.addData("Mode", "Step1 - Driving fwd 13 in");
+        telemetry.update();
+        FLDrive.setTargetPosition(FullRev);
+        FRDrive.setTargetPosition(FullRev);
+        BLDrive.setTargetPosition(FullRev);
+        BRDrive.setTargetPosition(FullRev);
+        // FLDrive.setPower(-1);
+        // FRDrive.setPower(-1);
+        // BLDrive.setPower(-1);
+        // BRDrive.setPower(-1);
+        
+        FLDrive.setPower(0.3);
+        FRDrive.setPower(0.3);
+        BLDrive.setPower(0.3);
+        BRDrive.setPower(0.3);
+        
+        
+        while(opModeIsActive() && FLDrive.isBusy() && FRDrive.isBusy() && BLDrive.isBusy() && BRDrive.isBusy()){
+        
+        }
+        sleep(300);
+        
+        //Pause to prevent Jerk
+      
+        
+        FLDrive.setTargetPosition(0);
+        FRDrive.setTargetPosition(0);
+        BLDrive.setTargetPosition(0);
+        BRDrive.setTargetPosition(0);
+        
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+        sleep(2000);
+        //Step 2: Turn port 45 Deg
+        telemetry.addData("Mode", "Step 2 - Turning 45 deg to import");
+        telemetry.update();
+        FLDrive.setTargetPosition(M-450);
+        FRDrive.setTargetPosition(M-450);
+        BLDrive.setTargetPosition(M-450);
+        BRDrive.setTargetPosition(M-450);
+        
+        FRDrive.setPower(1);
+        BRDrive.setPower(1);
+        BLDrive.setPower(-1);
+        FLDrive.setPower(-1);
+        
+        sleep(300);
+        //Pause
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+        sleep(2000);
+        //Step 3: Go forward 9 IN
+        telemetry.addData("Mode", "Step 3 - Going forward 26 in");
+        telemetry.update();
+        FLDrive.setTargetPosition(D);
+        FRDrive.setTargetPosition(D);
+        BLDrive.setTargetPosition(D);
+        BRDrive.setTargetPosition(D);
+        
+        FLDrive.setPower(1);
+        FRDrive.setPower(1);
+        BLDrive.setPower(1);
+        BRDrive.setPower(1);
+        
+        sleep(600);
+        //Pause
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+        sleep(2000);
+        //Step 4: Turn 45 Deg to port
+        telemetry.addData("Mode", "Step 4 - Turning 45 deg to port");
+        telemetry.update();
+        FLDrive.setTargetPosition(700);
+        FRDrive.setTargetPosition(700);
+        BLDrive.setTargetPosition(700);
+        BRDrive.setTargetPosition(700);
+        
+        FRDrive.setPower(1);
+        BRDrive.setPower(1);
+        BLDrive.setPower(-1);
+        FLDrive.setPower(-1);
+        sleep(300);
+        
+        //Wait so robot no equal bronco
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+        sleep(2000);
+        
+        //Step 5: Go forward 9 IN
+        telemetry.addData("Mode", "Step 5 - FWD 13 In");
+        telemetry.update();
+        
+        FLDrive.setTargetPosition(400);
+        FRDrive.setTargetPosition(400);
+        BLDrive.setTargetPosition(400);
+        BRDrive.setTargetPosition(400);
+        
+        FLDrive.setPower(1);
+        FRDrive.setPower(1);
+        BLDrive.setPower(1);
+        BRDrive.setPower(1);
+        
+        sleep(600);
+        // No bronco version 2
+        FLDrive.setPower(0);
+        FRDrive.setPower(0);
+        BLDrive.setPower(0);
+        BRDrive.setPower(0);
+        sleep(2000);
+        
+        //Step 6: Turn to port 45 Deg
+        telemetry.addData("Mode", "Step 6 - Turn 45 deg port");
+        telemetry.update();
+        
+        FLDrive.setTargetPosition(D);
+        FRDrive.setTargetPosition(D);
+        BLDrive.setTargetPosition(D);
+        BRDrive.setTargetPosition(D);
+        
+        FRDrive.setPower(1);
+        BRDrive.setPower(1);
+        BLDrive.setPower(-1);
+        FLDrive.setPower(-1);
+        sleep(300);
+        
+        FRDrive.setPower(0);
+        BRDrive.setPower(0);
+        BLDrive.setPower(0);
+        FLDrive.setPower(0);
+        sleep(100);
+        
+        telemetry.addData("Mode", "Step 7 - Waiting...");
+        telemetry.update();
+        
+        
+        
+        
+                
+                
+                
+        
+        while (opModeIsActive()) {
+        telemetry.addData("Status", "Run Time: " +  runtime.toString());
+        telemetry.addData("encoder-FL", FLDrive.getCurrentPosition() + "  busy=" + FLDrive.isBusy());
+        telemetry.addData("encoder-FR", FRDrive.getCurrentPosition() + "  busy=" + FRDrive.isBusy());
+        telemetry.addData("encoder-BL", BLDrive.getCurrentPosition() + "  busy=" + BLDrive.isBusy());
+        telemetry.addData("encoder-BR", BRDrive.getCurrentPosition() + "  busy=" + BRDrive.isBusy());
+        telemetry.update();
+            telemetry.update();
+        }
+    }
+}
