@@ -1,0 +1,118 @@
+package org.firstinspires.ftc.teamcode;
+import org.firstinspires.ftc.teamcode.Hardwarez;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+
+
+
+//Created by student on 8/27/18
+
+  //Note, Brendan Wu is an eccentric person and don't question his variables!!!
+ @TeleOp (name = "Mech", group = "RaptorTeleOP")
+public class Mecanum_Drive extends LinearOpMode {
+ 
+  public ElapsedTime runtime = new ElapsedTime();
+  
+  
+  Hardwarez HMP;
+
+    @Override
+        public void runOpMode() {
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+
+            HMP = new Hardwarez();
+            
+           
+           
+            // Wait for the game to start (driver presses PLAY)
+            waitForStart();
+            runtime.reset();
+    
+            // run until the end of the match (driver presses STOP)
+            while (opModeIsActive()) {
+                
+            double RStickY = -gamepad1.right_stick_y;
+            double LStickY = -gamepad1.left_stick_y;
+            boolean LBumper = gamepad1.left_bumper;
+            boolean RBumper = gamepad1.right_bumper;
+            
+            HMP.FLDrive.setPower(LStickY);
+            HMP.FRDrive.setPower(LStickY);
+            HMP.BLDrive.setPower(-RStickY);
+            HMP.BRDrive.setPower(-RStickY);
+            
+            if(RBumper){
+            HMP.FLDrive.setPower(1);
+            HMP.FRDrive.setPower(-1);
+            HMP.BLDrive.setPower(-1);
+            HMP.BRDrive.setPower(1);
+            
+            }
+            
+            else if(LBumper){
+            HMP.FLDrive.setPower(-1);
+            HMP.FRDrive.setPower(1);
+            HMP.BLDrive.setPower(1);
+            HMP.BRDrive.setPower(-1);
+            
+            }
+            
+
+
+      
+    
+                
+                
+                HMP.LIM.setPower(gamepad2.left_stick_y);
+                
+                HMP.Lift.setPower(gamepad2.right_stick_y);
+                
+                if(gamepad2.left_bumper) {
+                
+                HMP.Extender.setPower(1);
+                } else if (gamepad2.right_bumper) {
+                
+                HMP.Extender.setPower(-1);
+                } else{
+                
+                HMP.Extender.setPower(0);
+                }
+                
+                // Servo
+                if(gamepad2.a) {
+                // move to 0 degrees.
+                HMP.Hook.setPosition(0);
+                } else if (gamepad2.b) {
+                // move to 90 degrees.
+                HMP.Hook.setPosition(1);
+                }
+                
+                if(gamepad2.y) {
+                  HMP.Marker.setPosition(0);
+                }
+                
+                else if(gamepad2.x){
+                  HMP.Marker.setPosition(1);
+                }
+    
+ 
+             
+                
+}
+            // Show the elapsed game time and wheel power.
+                    telemetry.addData("Status", "Run Time: " + runtime.toString());
+                
+                    telemetry.addData("Servo Position", HMP.Hook.getPosition());
+                    telemetry.addData("Status", "Running");
+                    telemetry.update();
+                }
+    }
+
