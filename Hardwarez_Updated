@@ -1,0 +1,92 @@
+package org.firstinspires.ftc.teamcode;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gyroscope;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.AnalogInput; 
+
+
+/**
+ * This is NOT an opmode.
+ *
+ * This class can be used to define all the specific hardware for a single robot.
+ * In this case that robot is a Pushbot.
+ * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
+ *
+ * This hardware class assumes the following device names have been configured on the robot:
+ * Note:  All names are lower case and some have single spaces between words.
+ *
+ * Motor channel:  Left  drive motor:        "left_drive"
+ * Motor channel:  Right drive motor:        "right_drive"
+ * Motor channel:  Manipulator drive motor:  "left_arm"
+ * Servo channel:  Servo to open left claw:  "left_hand"
+ * Servo channel:  Servo to open right claw: "right_hand"
+ */
+public class Hardwarez {
+    
+     // Declare OpMode members.
+   public static DcMotor FLDrive = null;
+   public static DcMotor FRDrive = null;
+   public static DcMotor BLDrive = null;
+   public static DcMotor BRDrive = null;
+   public static DcMotor Lift = null;
+   public static DcMotor Extender = null;
+    // LIM = Linear Ingestion Module
+   public static DcMotor LIM = null;
+    
+    // //Servo Members
+   public static Servo Hook = null;
+   public static Servo Marker = null;
+    
+   static double  r;
+   static double rightX;
+   static double speed;
+   static double robotangle;
+ 
+    public static ElapsedTime runtime  = new ElapsedTime();
+
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap HMP) {
+        // Save reference to Hardware map
+  
+
+            FLDrive = HMP.get(DcMotor.class, "FL");
+            FRDrive = HMP.get(DcMotor.class, "FR");
+            BLDrive = HMP.get(DcMotor.class, "BL");
+            BRDrive = HMP.get(DcMotor.class, "BR");
+            Lift = HMP.get(DcMotor.class, "Lift");
+            Extender = HMP.get(DcMotor.class, "Ext");
+            LIM = HMP.get(DcMotor.class, "LIM");
+            // //Servo Hardware
+            Hook = HMP.get(Servo.class, "Hook");
+            Marker = HMP.get(Servo.class, "Marker");
+            // //Sensor Hardware
+            //Bottom = HMP.get(AnalogInput.class, "ODS");
+        
+            
+            // Most robots need the motor on one side to be reversed to drive forward
+            // Reverse the motor that runs backwards when connected directly to the battery
+            FLDrive.setDirection(DcMotor.Direction.FORWARD);
+            FRDrive.setDirection(DcMotor.Direction.REVERSE);
+            BLDrive.setDirection(DcMotor.Direction.FORWARD);
+            BRDrive.setDirection(DcMotor.Direction.REVERSE);
+            Lift.setDirection(DcMotor.Direction.FORWARD);
+            Extender.setDirection(DcMotor.Direction.REVERSE);
+            LIM.setDirection(DcMotor.Direction.REVERSE);
+            
+            
+            
+            
+    }
+ }
