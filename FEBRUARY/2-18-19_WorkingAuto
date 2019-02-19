@@ -1,0 +1,197 @@
+package org.firstinspires.ftc.teamcode;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import java.lang.annotation.Target;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.Hardware;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.teamcode.Hardwarez;
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Completed test 1/26/19
+@Autonomous (name = "Depot_Side_OutOfTheWay", group = "2803RAUTO")
+public class Depot_Side_GetOut extends LinearOpMode {
+    
+    Hardwarez HMP;
+    
+     @Override
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+          
+        HMP = new Hardwarez();
+        HMP.init(hardwareMap);
+    waitForStart();
+    
+    telemetry.addData("Status", "LETS GO!!!");
+    telemetry.update();
+    //Lowering
+    HMP.Lift.setPower(1);
+    
+    sleep(5000);
+    //Pause
+    HMP.Lift.setPower(0);
+    
+    sleep(1000);
+    //Strafe out of the way
+    
+    // HMP.FLDrive.setPower(1);
+    // HMP.FRDrive.setPower(1);
+    // HMP.BLDrive.setPower(1);
+    // HMP.BRDrive.setPower(1);
+    // sleep(50);
+    
+    HMP.FLDrive.setPower(0.9);
+    HMP.FRDrive.setPower(-0.9);
+    HMP.BLDrive.setPower(-0.9);
+    HMP.BRDrive.setPower(0.9);
+    
+    sleep(400);
+    
+    HMP.FRDrive.setPower(0);
+    HMP.BRDrive.setPower(0);
+    HMP.BLDrive.setPower(0);
+    HMP.FLDrive.setPower(0);
+    
+    sleep(1000);
+    
+ 
+    // Step 1: Go Forward To DepoT
+    telemetry.addData("Step 3:", "Go To Depot");
+        telemetry.update();
+    HMP.FRDrive.setPower(-0.5);
+    HMP.BRDrive.setPower(-0.5);
+    HMP.BLDrive.setPower(-0.5);
+    HMP.FLDrive.setPower(-0.5);
+    
+        sleep(1700);
+    
+    //Pause  
+    HMP.FRDrive.setPower(0);
+    HMP.BRDrive.setPower(0);
+    HMP.BLDrive.setPower(0);
+    HMP.FLDrive.setPower(0);
+    
+    sleep(1000);
+    // Step 2: Extend Marker Arm to depot then drop
+    telemetry.addData("Step 4:", "Extend Marker Arm then drop");
+        telemetry.update();
+        HMP.MarkerArm.setPower(1);
+        sleep(2500);
+        HMP.MarkerArm.setPower(0);
+        
+        HMP.Marker.setPosition(0);
+        sleep(1000);
+    
+        HMP.FRDrive.setPower(-0.35);
+        HMP.BRDrive.setPower(-0.35);
+        HMP.BLDrive.setPower(-0.35);
+        HMP.FLDrive.setPower(-0.35);
+        sleep(50);
+        
+        HMP.FRDrive.setPower(-0.35);
+        HMP.BRDrive.setPower(-0.35);
+        HMP.BLDrive.setPower(-0.35);
+        HMP.FLDrive.setPower(-0.35);
+        sleep(50);
+        
+       //Pause
+        HMP.FRDrive.setPower(0);
+        HMP.BRDrive.setPower(0);
+        HMP.BLDrive.setPower(0);
+        HMP.FLDrive.setPower(0);
+        sleep(1000);
+        
+        HMP.MarkerArm.setPower(-1);
+        sleep(1500);
+        HMP.MarkerArm.setPower(0);
+        sleep(1000);
+        
+        
+    // Step 3: Turn  45 degrees  
+    telemetry.addData("Step 5:", "Turn towards Port(Right)");
+        telemetry.update();
+
+        HMP.FRDrive.setPower(-1);
+        HMP.BRDrive.setPower(-1);
+        HMP.BLDrive.setPower(1);
+        HMP.FLDrive.setPower(1);
+        
+        sleep(650);
+        
+    //Pause
+        HMP.FRDrive.setPower(0);
+        HMP.BRDrive.setPower(0);
+        HMP.BLDrive.setPower(0);
+        HMP.FLDrive.setPower(0);
+        sleep(1000);
+        
+    //Step 4: Get in Position
+    telemetry.addData("Step 6:", "Get in Position");
+        telemetry.update();
+        HMP.FRDrive.setPower(-1);
+        HMP.BRDrive.setPower(-1);
+        HMP.BLDrive.setPower(-1);
+        HMP.FLDrive.setPower(-1);
+        sleep(1200);
+        
+        //Pause 
+        HMP.FRDrive.setPower(0);
+        HMP.BRDrive.setPower(0);
+        HMP.BLDrive.setPower(0);
+        HMP.FLDrive.setPower(0);
+        sleep(1000);
+    //Step 5: Turn a Bit() 
+    telemetry.addData("Step 7:", "Turn a Bit");
+        telemetry.update();
+        HMP.FRDrive.setPower(-0.5);
+        HMP.BRDrive.setPower(-0.5);
+        HMP.BLDrive.setPower(0.5);
+        HMP.FLDrive.setPower(0.5);
+        sleep(125);
+        
+        HMP.FRDrive.setPower(0);
+        HMP.BRDrive.setPower(0);
+        HMP.BLDrive.setPower(0);
+        HMP.FLDrive.setPower(0);
+        sleep(1000);
+        
+    //Step 6: Go to Wall  
+    telemetry.addData("Step 8:", "Get To The Wall!");
+        // telemetry.update();
+        // HMP.FRDrive.setPower(-1);
+        // HMP.BRDrive.setPower(1);
+        // HMP.BLDrive.setPower(1);
+        // HMP.FLDrive.setPower(-1);
+        // sleep(100);
+        
+        // HMP.FRDrive.setPower(0);
+        // HMP.BRDrive.setPower(0);
+        // HMP.BLDrive.setPower(0);
+        // HMP.FLDrive.setPower(0);
+        // sleep(2000);
+    //Extend Marker Arm to break the Crater Plane
+    telemetry.addData("Step 9:", "Extend Marker Arm");
+        telemetry.update();
+        HMP.MarkerArm.setPower(1);
+        
+        sleep(5000);
+        
+        HMP.MarkerArm.setPower(0);
+        
+        sleep(2500);
+        
+        
+        
+        
+        
+    }
+    
+    }
