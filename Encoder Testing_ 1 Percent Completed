@@ -1,0 +1,76 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import java.lang.annotation.Target;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+@Autonomous (name = "Go", group = "...!")
+
+public class Encoder_Test extends LinearOpMode {
+    
+    public DcMotor Test = null;
+
+    public int MOTOR_TYPE = 1;
+    @Override
+    
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        Test = hardwareMap.get(DcMotor.class, "Test");
+        
+        Test.setDirection(DcMotor.Direction.FORWARD);
+        
+        Test.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    
+        Test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        waitForStart();
+        
+        telemetry.addLine("No tasks successful");
+        Forward_Set(1, 100);
+        telemetry.addLine("First task successful");
+        Forward_Set(-1, -200);
+        telemetry.addLine("Second task successful");
+        // Left_Set(1, 50);
+        // telemetry.addLine("Third task successful");
+      
+        
+        
+      
+    }
+        //double POWER,
+    private void Forward_Set (double POWER, double DISTANCE)
+  {
+    Test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    
+    
+    int DISTANCE_TICKS = (int) Math.round((1440 * MOTOR_TYPE) / (4.5 * 3.141592654));
+    DISTANCE_TICKS = (int) Math.round(DISTANCE_TICKS * DISTANCE);
+    
+    
+    
+    Test.setPower(POWER);
+   
+    
+    Test.setTargetPosition(DISTANCE_TICKS);
+   
+    Test.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+   
+    while(opModeIsActive () && Test.isBusy()){
+        
+        telemetry.addData("Test's Tix", Test.getCurrentPosition());
+        telemetry.addData("Target Distance", DISTANCE);
+        telemetry.update();
+            }
+        }
+        
+   
+    
+}
+ 
+
+ 
+ 
+        
+    
